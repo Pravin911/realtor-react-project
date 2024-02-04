@@ -1,7 +1,9 @@
 module.exports = {
-  content: ["./src/**/*.{html,js,jsx}"],
+  content: ["./src/**/*.{html,js,jsx}"], // Files to scan for styles
   theme: {
-      extend: {},
+    extend: {}, // Extend the default theme if needed
   },
-  plugins: [],
-}
+  plugins: [
+    
+  ],
+};

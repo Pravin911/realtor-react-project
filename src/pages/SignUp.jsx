@@ -2,6 +2,11 @@ import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import OAuth from "../components/OAuth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { db } from "../firebase";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,6 +18,7 @@ export default function SignUp() {
   });
 
   const { name, email, password } = formData;
+  const navigate = useNavigate();
 
   const onChange = (e) => {
     setFormData((prevData) => ({
@@ -21,6 +27,33 @@ export default function SignUp() {
     }));
   };
 
+  async function onSubmit(e) {
+    e.preventDefault()
+
+    try {
+      const auth = getAuth()
+      const userCredentials = await 
+      createUserWithEmailAndPassword(
+        auth, 
+        email, 
+        password,
+        );
+        updateProfile(auth.currentUser, {
+          displayName: name,
+          
+        })
+      const user = userCredentials.user;
+      const formDataCopy = { ...formData };
+      delete formDataCopy.password;
+      formDataCopy.timestamp = serverTimestamp();
+
+      await setDoc(doc(db, 'users', user.uid), formDataCopy);
+      toast.success('Sign up was successful');
+      navigate('/');
+    } catch (error) {
+      toast.error('Something went wrong with registration');
+    }
+  }
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen">
@@ -34,7 +67,7 @@ export default function SignUp() {
           />
         </div>
         <div className="w-full md:w-1/3 lg:w-1/3 ml-6">
-          <form>
+          <form onSubmit={onSubmit}>
 
           <div className="mb-6">
               <input
