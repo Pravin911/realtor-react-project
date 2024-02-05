@@ -2,9 +2,12 @@ import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import OAuth from "../components/OAuth";
+import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
-    const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -12,6 +15,7 @@ export default function SignIn() {
   });
 
   const { email, password } = formData;
+  const navigate = useNavigate();
 
   const onChange = (e) => {
     setFormData((prevData) => ({
@@ -19,6 +23,23 @@ export default function SignIn() {
       [e.target.id]: e.target.value,
     }));
   };
+
+  async function onSubmit(e) {
+    e.preventDefault();
+    try {
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      )
+      if(userCredential.user) {
+        navigate('/');
+      }
+    } catch (error) {
+      toast.error('Bad credentials');
+    }
+  }
 
 
   return (
@@ -33,10 +54,10 @@ export default function SignIn() {
           />
         </div>
         <div className="w-full md:w-1/3 lg:w-1/3 ml-6">
-          <form>
-            <div className="mb-6">
+          <form onSubmit={onSubmit}>
+          <div className="mb-6">
               <input
-                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
+                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out focus:outline-none focus:ring focus:border-blue-300"
                 type="email"
                 id="email"
                 placeholder="Email address"
@@ -47,7 +68,7 @@ export default function SignIn() {
 
             <div className="relative mb-6">
               <input
-                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
+                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out focus:outline-none focus:ring focus:border-blue-300"
                 type={showPassword ? "text" : "password"}
                 id="password"
                 placeholder="Password"
@@ -66,6 +87,7 @@ export default function SignIn() {
                 />
               )}
             </div>
+
 
             <div className="flex justify-between text-sm">
               <p className="mb-6 text-white">
@@ -92,7 +114,7 @@ export default function SignIn() {
                 className="w-full bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-blue-700 transition duration-150 ease-in-out hover:shadow-lg active:bg-blue-800"
                 type="submit"
               >
-                Register
+                LogIn
               </button>
             </div>
 

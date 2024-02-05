@@ -70,48 +70,49 @@ export default function SignUp() {
           <form onSubmit={onSubmit}>
 
           <div className="mb-6">
-              <input
-                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
-                type="text"
-                id="name"
-                placeholder="Username"
-                value={name}
-                onChange={onChange}
-              />
-            </div>
+            <input
+              className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out focus:outline-none focus:ring focus:border-blue-300"
+              type="text"
+              id="name"
+              placeholder="Username"
+              value={name}
+              onChange={onChange}
+            />
+          </div>
 
-            <div className="mb-6">
-              <input
-                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
-                type="email"
-                id="email"
-                placeholder="Email address"
-                value={email}
-                onChange={onChange}
-              />
-            </div>
+          <div className="mb-6">
+            <input
+              className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out focus:outline-none focus:ring focus:border-blue-300"
+              type="email"
+              id="email"
+              placeholder="Email address"
+              value={email}
+              onChange={onChange}
+            />
+          </div>
 
-            <div className="relative mb-6">
-              <input
-                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out"
-                type={showPassword ? "text" : "password"}
-                id="password"
-                placeholder="Password"
-                value={password}
-                onChange={onChange}
+          <div className="relative mb-6">
+            <input
+              className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out focus:outline-none focus:ring focus:border-blue-300"
+              type={showPassword ? "text" : "password"}
+              id="password"
+              placeholder="Password"
+              value={password}
+              onChange={onChange}
+            />
+            {showPassword ? (
+              <FaEyeSlash
+                className="absolute right-3 top-3 text-xl cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
               />
-              {showPassword ? (
-                <FaEyeSlash
-                  className="absolute right-3 top-3 text-xl cursor-pointer"
-                  onClick={() => setShowPassword(!showPassword)}
-                />
-              ) : (
-                <FaEye
-                  className="absolute right-3 top-3 text-xl cursor-pointer"
-                  onClick={() => setShowPassword(!showPassword)}
-                />
-              )}
-            </div>
+            ) : (
+              <FaEye
+                className="absolute right-3 top-3 text-xl cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            )}
+          </div>
+
 
             <div className="flex justify-between text-sm">
               <p className="mb-6 text-white">
