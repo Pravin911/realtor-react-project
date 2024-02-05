@@ -2,11 +2,16 @@ import { getAuth, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { toast } from "react-toastify";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 export default function Profile() {
   const auth = getAuth();
   const navigate = useNavigate();
   const storage = getStorage();
+
+  const [changeDetails, setChangeDetails] = useState(false);
 
   const [formData, setFormData] = useState({
     username: auth.currentUser.displayName,
@@ -21,6 +26,34 @@ export default function Profile() {
     navigate("/");
   }
 
+  function onChange(e) {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.id]: e.target.value,
+    }));
+  }
+
+  async function onSubmit(e) {
+    e.preventDefault();
+
+    try {
+      if (auth.currentUser) {
+        if (auth.currentUser.displayName !== formData.username) {
+          await updateProfile(auth.currentUser, {
+            displayName: formData.username,
+          });
+        }
+        const docRef = doc(db, "users", auth.currentUser.uid);
+        await updateDoc(docRef, {
+          username: formData.username,
+        });
+        toast.success("Profile updated");
+      }
+    } catch (error) {
+      toast.error("Could not update profile");
+    }
+  }
+
   async function onProfilePictureChange(e) {
     const file = e.target.files[0];
 
@@ -31,19 +64,10 @@ export default function Profile() {
 
         const downloadURL = await getDownloadURL(storageRef);
 
-        // Upload the file to Firebase Storage
-        const storageRef = ref(storage, `profilePictures/${auth.currentUser.uid}`);
-        await uploadBytes(storageRef, file);
-
-        // Get the download URL of the uploaded file
-        const downloadURL = await getDownloadURL(storageRef);
-
-        // Update the user's profile with the new photo URL
         await updateProfile(auth.currentUser, {
           photoURL: downloadURL,
         });
 
-        // Update the local state to reflect the changes
         setProfilePicture(downloadURL);
       } catch (error) {
         console.error("Error uploading profile picture:", error.message);
@@ -75,14 +99,17 @@ export default function Profile() {
             </label>
           </div>
 
-          <form className="">
+          <form onSubmit={onSubmit}>
             <input
               type="text"
-              id="name"
+              id="username"
               placeholder="Name"
               value={username}
-              disabled
-              className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-[1px] border-gray-300 rounded transition ease-in-out mb-6"
+              disabled={!changeDetails}
+              onChange={onChange}
+              className={`w-full px-4 py-2 text-xl text-gray-700 bg-white border-[1px] border-gray-300 rounded transition ease-in-out mb-6 ${
+                changeDetails && "bg-red-200 focus:bg-red-200"
+              }`}
             />
 
             <input
@@ -97,9 +124,16 @@ export default function Profile() {
             <div className="flex justify-between whitespace-nowrap text-sm sm:text-lg mb-6">
               <p className="text-white flex items-center">
                 Do you want to change your name?
-                <span className="text-red-600 hover:text-red-800 transition ease-in-out duration-200 ml-1 cursor-pointer">
-                  Edit
+                <span
+                onClick={(e) => {
+                    changeDetails && onSubmit(e);
+                    setChangeDetails((prevState) => !prevState);
+                }}
+                className="text-red-600 hover:text-red-800 transition ease-in-out duration-200 ml-1 cursor-pointer"
+                >
+                {changeDetails ? "Apply Change" : "Edit"}
                 </span>
+
               </p>
               <p
                 onClick={onLogOut}
@@ -113,8 +147,5 @@ export default function Profile() {
       </section>
     </>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 59554e2c595da9ee26d37f38f2d94aae3973e21c
+
