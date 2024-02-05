@@ -119,7 +119,7 @@ export default function SignIn() {
             </div>
 
             <div className="my-4 flex items-center border-t border-gray-300">
-              <p className="text-center font-semibold mt-4 w-full">OR</p>
+              <p className="text-center font-semibold mt-4 w-full text-white">OR</p>
             </div>
                 <OAuth/>
           </form>
