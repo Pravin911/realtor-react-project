@@ -1,8 +1,24 @@
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Header() {
+
+  const [ pageState, setPageState ] = useState("Sign In")
   const location = useLocation();
   const navigate = useNavigate();
+  const auth = getAuth();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setPageState("Profile");
+      } else {
+        setPageState("Sign In");
+      }
+    });
+  }, [auth]);
+
 
   const pathMatchRoute = (route) => route === location.pathname;
 
@@ -33,9 +49,9 @@ export default function Header() {
             />
             <NavItem
               route="/sign-in"
-              label="SignIn"
-              active={pathMatchRoute("/sign-in")}
-              onClick={() => navigate("/sign-in")}
+              label={pageState}
+              active={pathMatchRoute("/sign-in") || pathMatchRoute("/profile")}
+              onClick={() => navigate("/profile")}
             />
           </ul>
         </div>
