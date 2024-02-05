@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import OAuth from "../components/OAuth";
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const { email, password } = formData;
@@ -32,30 +32,29 @@ export default function SignIn() {
         auth,
         email,
         password
-      )
-      if(userCredential.user) {
-        navigate('/');
+      );
+      if (userCredential.user) {
+        navigate("/");
       }
     } catch (error) {
-      toast.error('Bad credentials');
+      toast.error("Bad credentials");
     }
   }
-
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-3xl text-center mt-6 font-bold text-white">Sign In</h1>
-      <div className="flex justify-center items-center mt-8 mx-6 max-w-6xl">
-        <div className="md:w-2/3 lg:w-2/3 mb-12 md:mb-6">
+      <div className="flex flex-col md:flex-row items-center justify-center mt-8 mx-6 max-w-6xl">
+        <div className="md:w-2/3 lg:w-2/3 mb-12 md:mb-0">
           <img
             src="https://plus.unsplash.com/premium_photo-1661423665326-fe5a4089381c?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="key"
-            className="w-full rounded-2xl"
+            className="w-full rounded-2xl md:mr-6 mb-6 md:mb-0"
           />
         </div>
         <div className="w-full md:w-1/3 lg:w-1/3 ml-6">
           <form onSubmit={onSubmit}>
-          <div className="mb-6">
+            <div className="mb-6">
               <input
                 className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out focus:outline-none focus:ring focus:border-blue-300"
                 type="email"
@@ -87,7 +86,6 @@ export default function SignIn() {
                 />
               )}
             </div>
-
 
             <div className="flex justify-between text-sm">
               <p className="mb-6 text-white">
@@ -121,7 +119,7 @@ export default function SignIn() {
             <div className="my-4 flex items-center border-t border-gray-300">
               <p className="text-center font-semibold mt-4 w-full text-white">OR</p>
             </div>
-                <OAuth/>
+            <OAuth />
           </form>
         </div>
       </div>

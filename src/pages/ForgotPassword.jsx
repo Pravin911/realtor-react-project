@@ -5,12 +5,11 @@ import { toast } from "react-toastify";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 export default function ForgotPassword() {
-
-  const [ email, setEmail ] = useState('');
+  const [email, setEmail] = useState("");
 
   function onChange(e) {
     setEmail(e.target.value);
-  };
+  }
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -23,13 +22,12 @@ export default function ForgotPassword() {
       toast.error('Could not reset password');
     }
   }
-  
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-3xl text-center mt-6 font-bold text-white">Forgot Password</h1>
-      <div className="flex justify-center items-center mt-8 mx-6 max-w-6xl">
-        <div className="md:w-2/3 lg:w-2/3 mb-12 md:mb-6">
+      <div className="flex flex-col md:flex-row items-center justify-center mt-8 mx-6 max-w-6xl">
+        <div className="md:w-2/3 lg:w-2/3 mb-12 md:mb-0">
           <img
             src="https://plus.unsplash.com/premium_photo-1679857930663-e7c840a031ec?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8a2V5fGVufDB8fDB8fHww"
             alt="key illustration"
@@ -48,8 +46,6 @@ export default function ForgotPassword() {
                 onChange={onChange}
               />
             </div>
-
-
 
             <div className="flex justify-between text-sm">
               <p className="mb-6 text-white">
@@ -83,7 +79,7 @@ export default function ForgotPassword() {
             <div className="my-4 flex items-center border-t border-gray-300">
               <p className="text-center font-semibold mt-4 w-full text-white">OR</p>
             </div>
-                <OAuth/>
+            <OAuth />
           </form>
         </div>
       </div>
