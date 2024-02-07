@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 body {
-    background: url('https://images.pexels.com/photos/8299700/pexels-photo-8299700.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1') center/cover no-repeat fixed;
+    background: url('https://img3.wallspic.com/crops/7/7/5/9/89577/89577-london-urban_area-horizon-city_hall_london-cityscape-7680x4320.jpg') center/cover no-repeat fixed;
     backdrop-filter: blur(8px);
 }

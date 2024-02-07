@@ -23,7 +23,7 @@ export default function Header() {
   const pathMatchRoute = (route) => route === location.pathname;
 
   return (
-    <div className="bg-white border-b-1 shadow-sm sticky top-0 z-50">
+    <div className="bg-white border-b-1 shadow-sm sticky top-0 z-40">
       <header className="flex justify-between items-center max-w-6xl mx-auto">
         <div>
           <img
