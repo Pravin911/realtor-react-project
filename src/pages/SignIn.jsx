@@ -43,11 +43,11 @@ export default function SignIn() {
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-3xl text-center mt-6 font-bold text-white">Sign In</h1>
+      <h1 className="text-3xl text-center mt-6 font-bold">Sign In</h1>
       <div className="flex flex-col md:flex-row items-center justify-center mt-8 mx-6 max-w-6xl">
         <div className="md:w-2/3 lg:w-2/3 mb-12 md:mb-0">
           <img
-            src="https://plus.unsplash.com/premium_photo-1661423665326-fe5a4089381c?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="https://img.freepik.com/premium-vector/account-manager-handling-customer-inquiries-issues-related-their-account_701961-4953.jpg?w=996"
             alt="key"
             className="w-full rounded-2xl md:mr-6 mb-6 md:mb-0"
           />
@@ -88,7 +88,7 @@ export default function SignIn() {
             </div>
 
             <div className="flex justify-between text-sm">
-              <p className="mb-6 text-white">
+              <p className="mb-6">
                 Don't have an account?{" "}
                 <Link
                   to="/sign-up"

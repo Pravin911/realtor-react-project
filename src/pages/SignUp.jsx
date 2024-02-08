@@ -55,11 +55,11 @@ export default function SignUp() {
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-3xl text-center mt-6 font-bold text-white">Sign Up</h1>
+      <h1 className="text-3xl text-center mt-6 font-bold">Sign Up</h1>
       <div className="flex flex-col md:flex-row items-center justify-center mt-8 mx-6 max-w-6xl">
         <div className="md:w-2/3 lg:w-2/3 mb-12 md:mb-0">
           <img
-            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="https://img.freepik.com/premium-vector/web-profile-flat-style-design-vector-illustration-stock-illustration_357500-397.jpg?w=900"
             alt="key"
             className="w-full rounded-2xl"
           />
@@ -111,7 +111,7 @@ export default function SignUp() {
             </div>
 
             <div className="flex justify-between text-sm">
-              <p className="mb-6 text-white">
+              <p className="mb-6">
                 Have an account?{" "}
                 <Link
                   to="/sign-in"

@@ -80,7 +80,7 @@ export default function Profile() {
   return (
     <>
       <section className="flex flex-col items-center justify-center">
-        <h1 className="text-3xl text-center mt-6 font-bold text-white">My Profile</h1>
+        <h1 className="text-3xl text-center mt-6 font-bold">My Profile</h1>
         <div className="w-full md:w-[50%] mt-6 px-3">
           <div className="flex items-center flex-col mb-6">
             {profilePicture && (
@@ -124,7 +124,7 @@ export default function Profile() {
             />
 
             <div className="flex justify-between whitespace-nowrap text-sm sm:text-lg mb-6">
-              <p className="text-white flex items-center">
+              <p className= "flex items-center">
                 Do you want to change your name?
                 <span
                 onClick={(e) => {
@@ -139,7 +139,7 @@ export default function Profile() {
               </p>
               <p
                 onClick={onLogOut}
-                className="text-white hover:text-blue-800 transition ease-in-out duration-200 cursor-pointer"
+                className="text-blue-600 hover:text-blue-800 transition ease-in-out duration-200 cursor-pointer"
               >
                 Sign Out
               </p>

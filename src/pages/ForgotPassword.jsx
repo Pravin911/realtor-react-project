@@ -25,11 +25,11 @@ export default function ForgotPassword() {
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-3xl text-center mt-6 font-bold text-white">Forgot Password</h1>
+      <h1 className="text-3xl text-center mt-6 font-bold">Forgot Password</h1>
       <div className="flex flex-col md:flex-row items-center justify-center mt-8 mx-6 max-w-6xl">
         <div className="md:w-2/3 lg:w-2/3 mb-12 md:mb-0">
           <img
-            src="https://plus.unsplash.com/premium_photo-1679857930663-e7c840a031ec?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8a2V5fGVufDB8fDB8fHww"
+            src="https://img.freepik.com/premium-vector/data-security-flat-style-design-vector-illustration-stock-illustration_357500-150.jpg?w=900"
             alt="key illustration"
             className="w-full rounded-2xl"
           />
@@ -48,7 +48,7 @@ export default function ForgotPassword() {
             </div>
 
             <div className="flex justify-between text-sm">
-              <p className="mb-6 text-white">
+              <p className="mb-6">
                 Don't have an account?{" "}
                 <Link
                   to="/sign-up"
