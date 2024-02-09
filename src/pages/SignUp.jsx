@@ -68,7 +68,7 @@ export default function SignUp() {
           <form onSubmit={onSubmit}>
             <div className="mb-6">
               <input
-                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out focus:outline-none focus:ring focus:border-blue-300"
+                className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded mb-4 focus:outline-none focus:ring focus:border-blue-500 transition"
                 type="text"
                 id="name"
                 placeholder="Username"
@@ -79,7 +79,7 @@ export default function SignUp() {
 
             <div className="mb-6">
               <input
-                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out focus:outline-none focus:ring focus:border-blue-300"
+                className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded mb-4 focus:outline-none focus:ring focus:border-blue-500 transition"
                 type="email"
                 id="email"
                 placeholder="Email address"
@@ -90,7 +90,7 @@ export default function SignUp() {
 
             <div className="relative mb-6">
               <input
-                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out focus:outline-none focus:ring focus:border-blue-300"
+                className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded mb-4 focus:outline-none focus:ring focus:border-blue-500 transition"
                 type={showPassword ? "text" : "password"}
                 id="password"
                 placeholder="Password"

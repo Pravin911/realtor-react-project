@@ -216,38 +216,40 @@ export default function CreateListing() {
           value={name}
           onChange={onChange}
           placeholder="Name"
-          maxLength="32"
-          minLength="10"
+          maxLength={32}
+          minLength={10}
           required
-          className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
+          className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out mb-6"
         />
+
         <div className="flex space-x-6 mb-6">
-          <div>
-            <p className="text-lg font-semibold">Beds</p>
-            <input
-              type="number"
-              id="bedrooms"
-              value={bedrooms}
-              onChange={onChange}
-              min="1"
-              max="50"
-              required
-              className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
-            />
-          </div>
-          <div>
-            <p className="text-lg font-semibold">Baths</p>
-            <input
-              type="number"
-              id="bathrooms"
-              value={bathrooms}
-              onChange={onChange}
-              min="1"
-              max="50"
-              required
-              className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
-            />
-          </div>
+        <div>
+          <p className="text-lg font-semibold">Beds</p>
+          <input
+            type="number"
+            id="bedrooms"
+            value={bedrooms}
+            onChange={onChange}
+            min={1}
+            max={50}
+            required
+            className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out text-center"
+          />
+        </div>
+        <div>
+          <p className="text-lg font-semibold">Baths</p>
+          <input
+            type="number"
+            id="bathrooms"
+            value={bathrooms}
+            onChange={onChange}
+            min={1}
+            max={50}
+            required
+            className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out text-center"
+          />
+        </div>
+
         </div>
         <p className="text-lg mt-6 font-semibold">Parking spot</p>
         <div className="flex">
@@ -299,16 +301,17 @@ export default function CreateListing() {
             no
           </button>
         </div>
+        
         <p className="text-lg mt-6 font-semibold">Address</p>
-        <textarea
-          type="text"
-          id="address"
-          value={address}
-          onChange={onChange}
-          placeholder="Address"
-          required
-          className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
-        />
+          <textarea
+            id="address"
+            value={address}
+            onChange={onChange}
+            placeholder="Address"
+            required
+            className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out"
+          />
+
         {!geolocationEnabled && (
           <div className="flex space-x-6 justify-start mb-6">
             <div className="">
@@ -319,10 +322,11 @@ export default function CreateListing() {
                 value={latitude}
                 onChange={onChange}
                 required
-                min="-90"
-                max="90"
-                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border-slate-600 text-center"
+                min={-90}
+                max={90}
+                className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out text-center"
               />
+
             </div>
             <div className="">
               <p className="text-lg font-semibold">Longitude</p>
@@ -332,23 +336,24 @@ export default function CreateListing() {
                 value={longitude}
                 onChange={onChange}
                 required
-                min="-180"
-                max="180"
-                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border-slate-600 text-center"
+                min={-180}
+                max={180}
+                className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out text-center"
               />
+
             </div>
           </div>
         )}
         <p className="text-lg font-semibold">Description</p>
         <textarea
-          type="text"
           id="description"
           value={description}
           onChange={onChange}
           placeholder="Description"
           required
-          className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
+          className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out"
         />
+
         <p className="text-lg font-semibold">Offer</p>
         <div className="flex mb-6">
           <button
@@ -378,16 +383,17 @@ export default function CreateListing() {
           <div className="">
             <p className="text-lg font-semibold">Regular price</p>
             <div className="flex w-full justify-center items-center space-x-6">
-              <input
-                type="number"
-                id="regularPrice"
-                value={regularPrice}
-                onChange={onChange}
-                min="50"
-                max="400000000"
-                required
-                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
-              />
+            <input
+              type="number"
+              id="regularPrice"
+              value={regularPrice}
+              onChange={onChange}
+              min={50}
+              max={400000000}
+              required
+              className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out text-center"
+            />
+
               {type === "rent" && (
                 <div className="">
                   <p className="text-md w-full whitespace-nowrap">$ / Month</p>
@@ -401,16 +407,17 @@ export default function CreateListing() {
             <div className="">
               <p className="text-lg font-semibold">Discounted price</p>
               <div className="flex w-full justify-center items-center space-x-6">
-                <input
-                  type="number"
-                  id="discountedPrice"
-                  value={discountedPrice}
-                  onChange={onChange}
-                  min="50"
-                  max="400000000"
-                  required={offer}
-                  className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
-                />
+              <input
+                type="number"
+                id="regularPrice"
+                value={regularPrice}
+                onChange={onChange}
+                min={50}
+                max={400000000}
+                required
+                className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out text-center"
+              />
+
                 {type === "rent" && (
                   <div className="">
                     <p className="text-md w-full whitespace-nowrap">

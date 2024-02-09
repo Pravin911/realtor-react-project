@@ -7,11 +7,11 @@ import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
 
-  function onChange(e) {
+  const onChange = (e) => {
     setEmail(e.target.value);
-  }
+  };
 
-  async function onSubmit(e) {
+  const onSubmit = async (e) => {
     e.preventDefault();
     try {
       const auth = getAuth();
@@ -21,7 +21,7 @@ export default function ForgotPassword() {
       console.error('Error sending password reset email:', error.message);
       toast.error('Could not reset password');
     }
-  }
+  };
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen">
@@ -38,7 +38,7 @@ export default function ForgotPassword() {
           <form onSubmit={onSubmit}>
             <div className="mb-6">
               <input
-                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out focus:outline-none focus:ring focus:border-blue-300"
+                className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded mb-4 focus:outline-none focus:ring focus:border-blue-500 transition"
                 type="email"
                 id="email"
                 placeholder="Email address"

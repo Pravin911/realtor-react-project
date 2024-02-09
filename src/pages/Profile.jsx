@@ -109,24 +109,27 @@ export default function Profile() {
       <section className="flex flex-col items-center justify-center">
         <h1 className="text-3xl text-center mt-6 font-bold">My Profile</h1>
         <div className="w-full md:w-[50%] mt-6 px-3">
-          <div className="flex items-center flex-col mb-6">
-            {profilePicture && (
-              <img
-                src={profilePicture}
-                alt="Profile"
-                className="rounded-full h-32 w-32 mb-2 border-4 border-white"
-              />
-            )}
-            <label className="text-white block mb-2 cursor-pointer">
-              Change Profile Picture
-              <input
-                type="file"
-                accept="image/*"
-                onChange={onProfilePictureChange}
-                className="hidden"
-              />
-            </label>
-          </div>
+        <div className="flex items-center flex-col mb-6">
+          {profilePicture && (
+            <img
+              src={profilePicture}
+              alt="Profile"
+              className="rounded-full h-40 w-40 mb-4 border-4 border-white shadow-lg object-cover"
+              style={{ objectFit: 'cover' }} // Ensure the image fills the circular frame
+            />
+          )}
+          <label htmlFor="profilePictureInput" className="text-blue-600 font-medium cursor-pointer mb-2">
+            Change Profile Picture
+            <input
+              type="file"
+              id="profilePictureInput"
+              accept="image/*"
+              onChange={onProfilePictureChange}
+              className="hidden"
+            />
+          </label>
+        </div>
+
 
           <form onSubmit={onSubmit}>
             <input
@@ -136,9 +139,7 @@ export default function Profile() {
               value={username}
               disabled={!changeDetails}
               onChange={onChange}
-              className={`w-full px-4 py-2 text-xl text-gray-700 bg-white border-[1px] border-gray-300 rounded transition ease-in-out mb-6 ${
-                changeDetails && "bg-red-200 focus:bg-red-200"
-              }`}
+              className="w-full px-4 py-3 text-lg text-gray-700 bg-gray-100 border border-gray-300 rounded mb-4 focus:outline-none focus:ring focus:border-blue-500 transition"
             />
 
             <input
@@ -147,7 +148,7 @@ export default function Profile() {
               placeholder="Email"
               value={email}
               disabled
-              className="w-full px-4 py-2 text-xl text-gray-700 bg-white border-[1px] border-gray-300 rounded transition ease-in-out mb-6"
+              className="w-full px-4 py-3 text-lg text-gray-700 bg-gray-100 border border-gray-300 rounded mb-4 focus:outline-none focus:ring focus:border-blue-500 transition"
             />
 
             <div className="flex justify-between whitespace-nowrap text-sm sm:text-lg mb-6">
@@ -186,8 +187,8 @@ export default function Profile() {
       <div className="max-w-6xl px-3 mt-6 mx-auto">
               {!loading && listings.length > 0 && (
                 <>
-                  <h2 className="text-2xl font-semibold mb-4 text-center">My Listings</h2>
-                  <ul>
+                  <h2 className="text-2xl font-semibold mb-6 mt-6 text-center">My Listings</h2>
+                  <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-6 mb-6">
                   {listings.map((listing) => {
                       return (
                         <ListingItem 
