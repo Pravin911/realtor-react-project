@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Spinner from "../components/Spinner";
 import { toast } from "react-toastify";
 import {
@@ -9,9 +9,17 @@ import {
 } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
-import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function CreateListing() {
   const navigate = useNavigate();
@@ -55,29 +63,28 @@ export default function CreateListing() {
   const params = useParams();
 
   useEffect(() => {
-    setLoading(true);
-    async function fetchUserListings() {
-        const docRef = doc(db, 'listings', params.listingId);
-        const docSnap = await getDoc(docRef);
-        if(docSnap.exists()) {
-            setListing(docSnap.data());
-            setFormData({...docSnap.data(),});
-            setLoading(false);
-        } else {
-            navigate('/');
-            toast.error('Listing does not exist');
-        }
-    }
-
-    fetchUserListings();
-  }, [navigate, params.listingId]);
-
-  useEffect(() => {
-    if(listing &&  listing.userRef !==  auth.currentUser.uid) {
-        toast.error('You can not edit this listing');
-        navigate('/');
+    if (listing && listing.userRef !== auth.currentUser.uid) {
+      toast.error("You can't edit this listing");
+      navigate("/");
     }
   }, [auth.currentUser.uid, listing, navigate]);
+
+  useEffect(() => {
+    setLoading(true);
+    async function fetchListing() {
+      const docRef = doc(db, "listings", params.listingId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setListing(docSnap.data());
+        setFormData({ ...docSnap.data() });
+        setLoading(false);
+      } else {
+        navigate("/");
+        toast.error("Listing does not exist");
+      }
+    }
+    fetchListing();
+  }, [navigate, params.listingId]);
 
   function onChange(e) {
     let boolean = null;
@@ -119,13 +126,12 @@ export default function CreateListing() {
     let location;
     if (geolocationEnabled) {
       const response = await fetch(
-        `https://geocode.maps.co/search?q=${address}&api_key=65c4b0edd0357641864507eiv7e88c2`
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`
       );
       const data = await response.json();
       console.log(data);
-      geolocation.lat = data.results?.[0]?.geometry.location.lat ?? 0;
-      geolocation.lng = data.results?.[0]?.geometry.location.lng ?? 0;
-      
+      geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
+      geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
 
       location = data.status === "ZERO_RESULTS" && undefined;
 
@@ -197,6 +203,7 @@ export default function CreateListing() {
     delete formDataCopy.latitude;
     delete formDataCopy.longitude;
     const docRef = doc(db, "listings", params.listingId);
+
     await updateDoc(docRef, formDataCopy);
     setLoading(false);
     toast.success("Listing Edited");
@@ -246,40 +253,38 @@ export default function CreateListing() {
           value={name}
           onChange={onChange}
           placeholder="Name"
-          maxLength={32}
-          minLength={10}
+          maxLength="32"
+          minLength="10"
           required
-          className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out mb-6"
+          className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
-
         <div className="flex space-x-6 mb-6">
-        <div>
-          <p className="text-lg font-semibold">Beds</p>
-          <input
-            type="number"
-            id="bedrooms"
-            value={bedrooms}
-            onChange={onChange}
-            min={1}
-            max={50}
-            required
-            className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out text-center"
-          />
-        </div>
-        <div>
-          <p className="text-lg font-semibold">Baths</p>
-          <input
-            type="number"
-            id="bathrooms"
-            value={bathrooms}
-            onChange={onChange}
-            min={1}
-            max={50}
-            required
-            className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out text-center"
-          />
-        </div>
-
+          <div>
+            <p className="text-lg font-semibold">Beds</p>
+            <input
+              type="number"
+              id="bedrooms"
+              value={bedrooms}
+              onChange={onChange}
+              min="1"
+              max="50"
+              required
+              className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
+            />
+          </div>
+          <div>
+            <p className="text-lg font-semibold">Baths</p>
+            <input
+              type="number"
+              id="bathrooms"
+              value={bathrooms}
+              onChange={onChange}
+              min="1"
+              max="50"
+              required
+              className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
+            />
+          </div>
         </div>
         <p className="text-lg mt-6 font-semibold">Parking spot</p>
         <div className="flex">
@@ -331,17 +336,16 @@ export default function CreateListing() {
             no
           </button>
         </div>
-        
         <p className="text-lg mt-6 font-semibold">Address</p>
-          <textarea
-            id="address"
-            value={address}
-            onChange={onChange}
-            placeholder="Address"
-            required
-            className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out"
-          />
-
+        <textarea
+          type="text"
+          id="address"
+          value={address}
+          onChange={onChange}
+          placeholder="Address"
+          required
+          className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
+        />
         {!geolocationEnabled && (
           <div className="flex space-x-6 justify-start mb-6">
             <div className="">
@@ -352,11 +356,10 @@ export default function CreateListing() {
                 value={latitude}
                 onChange={onChange}
                 required
-                min={-90}
-                max={90}
-                className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out text-center"
+                min="-90"
+                max="90"
+                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border-slate-600 text-center"
               />
-
             </div>
             <div className="">
               <p className="text-lg font-semibold">Longitude</p>
@@ -366,24 +369,23 @@ export default function CreateListing() {
                 value={longitude}
                 onChange={onChange}
                 required
-                min={-180}
-                max={180}
-                className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out text-center"
+                min="-180"
+                max="180"
+                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:bg-white focus:text-gray-700 focus:border-slate-600 text-center"
               />
-
             </div>
           </div>
         )}
         <p className="text-lg font-semibold">Description</p>
         <textarea
+          type="text"
           id="description"
           value={description}
           onChange={onChange}
           placeholder="Description"
           required
-          className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out"
+          className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 mb-6"
         />
-
         <p className="text-lg font-semibold">Offer</p>
         <div className="flex mb-6">
           <button
@@ -413,17 +415,16 @@ export default function CreateListing() {
           <div className="">
             <p className="text-lg font-semibold">Regular price</p>
             <div className="flex w-full justify-center items-center space-x-6">
-            <input
-              type="number"
-              id="regularPrice"
-              value={regularPrice}
-              onChange={onChange}
-              min={50}
-              max={400000000}
-              required
-              className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out text-center"
-            />
-
+              <input
+                type="number"
+                id="regularPrice"
+                value={regularPrice}
+                onChange={onChange}
+                min="50"
+                max="400000000"
+                required
+                className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
+              />
               {type === "rent" && (
                 <div className="">
                   <p className="text-md w-full whitespace-nowrap">$ / Month</p>
@@ -437,17 +438,16 @@ export default function CreateListing() {
             <div className="">
               <p className="text-lg font-semibold">Discounted price</p>
               <div className="flex w-full justify-center items-center space-x-6">
-              <input
-                type="number"
-                id="regularPrice"
-                value={regularPrice}
-                onChange={onChange}
-                min={50}
-                max={400000000}
-                required
-                className="w-full px-4 py-3 text-lg text-gray-700 bg-white border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500 transition duration-150 ease-in-out text-center"
-              />
-
+                <input
+                  type="number"
+                  id="discountedPrice"
+                  value={discountedPrice}
+                  onChange={onChange}
+                  min="50"
+                  max="400000000"
+                  required={offer}
+                  className="w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition duration-150 ease-in-out focus:text-gray-700 focus:bg-white focus:border-slate-600 text-center"
+                />
                 {type === "rent" && (
                   <div className="">
                     <p className="text-md w-full whitespace-nowrap">
