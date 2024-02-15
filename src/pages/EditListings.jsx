@@ -126,7 +126,7 @@ export default function CreateListing() {
     let location;
     if (geolocationEnabled) {
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`
+        `https://geocode.maps.co/search?q=${address}&api_key=65c4b0edd0357641864507eiv7e88c2`
       );
       const data = await response.json();
       console.log(data);

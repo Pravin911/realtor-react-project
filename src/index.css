@@ -3,12 +3,13 @@
 @tailwind utilities;
 
 body {
-    background-color: rgb(240, 253, 244);
+    /* Define the gradient background */
+    background: linear-gradient(to bottom, rgba(240, 253, 244, 1), rgba(240, 253, 244, 0.5)); /* Adjust alpha values for transparency */
 }
+
 /* Add this CSS to your stylesheet */
 .slick-slider .slick-slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-  
+}
