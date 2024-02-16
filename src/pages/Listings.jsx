@@ -1,6 +1,5 @@
 import { doc, getDoc } from "firebase/firestore";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Spinner from "../components/Spinner";
 import { db } from "../firebase";
@@ -21,7 +20,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 export default function Listing() {
   const auth = getAuth();
-  const params = useParams();
+  const { listingId } = useParams();
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
   const [shareLinkCopied, setShareLinkCopied] = useState(false);
@@ -29,7 +28,7 @@ export default function Listing() {
   
   useEffect(() => {
     async function fetchListing() {
-      const docRef = doc(db, "listings", params.listingId);
+      const docRef = doc(db, "listings", listingId);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setListing(docSnap.data());
@@ -37,7 +36,7 @@ export default function Listing() {
       }
     }
     fetchListing();
-  }, [params.listingId]);
+  }, [listingId]);
 
   const settings = {
     dots: true,
@@ -47,6 +46,8 @@ export default function Listing() {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
+    nextArrow: <CustomNextArrow />,
+    prevArrow: <CustomPrevArrow />,
   };
 
   if (loading) {
@@ -56,12 +57,12 @@ export default function Listing() {
   return (
     <main>
        <Slider {...settings}>
-            {listing.imgUrls.map((url, index) => (
-            <div key={index} className="relative w-full overflow-hidden h-[60vh]">
-                <img src={listing.imgUrls[index]} alt={`Slide ${index}`} className="w-full h-full object-cover" />
-            </div>
-            ))}
-        </Slider>
+        {listing.imgUrls.map((url, index) => (
+          <div key={index} className="relative w-full overflow-hidden h-[60vh]">
+            <img src={listing.imgUrls[index]} alt={`Slide ${index}`} className="w-full h-full object-cover" />
+          </div>
+        ))}
+      </Slider>
       <div
         className="fixed top-[13%] right-[3%] z-10 bg-white cursor-pointer border-2 border-gray-400 rounded-full w-12 h-12 flex justify-center items-center"
         onClick={() => {
@@ -143,27 +144,67 @@ export default function Listing() {
             <Contact userRef={listing.userRef} listing={listing} />
           )}
         </div>
-        <div className="w-full h-[200px] md:h-[400px] z-10 overflow-x-hidden mt-6 md:mt-0 md:ml-2">
-          <MapContainer
-            center={[listing.geolocation.lat, listing.geolocation.lng]}
-            zoom={13}
-            scrollWheelZoom={false}
-            style={{ height: "100%", width: "100%" }}
-          >
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <Marker
-              position={[listing.geolocation.lat, listing.geolocation.lng]}
-            >
-              <Popup>
-                {listing.address}
-              </Popup>
-            </Marker>
-          </MapContainer>
+        <div className="w-full h-[400px] z-10 overflow-x-hidden mt-6 md:mt-0 md:ml-2">
+        <MapContainer
+          center={[listing.geolocation.lat, listing.geolocation.lng]}
+          zoom={13}
+          scrollWheelZoom={false}
+          style={{ height: "100%", width: "100%" }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={[listing.geolocation.lat, listing.geolocation.lng]}>
+            <Popup>{listing.address}</Popup>
+          </Marker>
+        </MapContainer>
         </div>
-        </div>
-      </main>
-    );
+       </div>
+        </main>
+      );
   }
+  
+const CustomPrevArrow = (props) => {
+  const { className, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{
+        display: "block",
+        position: "absolute",
+        left: "10px",
+        top: "50%",
+        transform: "translateY(-50%)",
+        zIndex: 1,
+        cursor: "pointer",
+        color: "#ffffff",
+        fontSize: "32px", // Increased font size for larger button
+      }}
+      onClick={onClick}
+    >
+    </div>
+  );
+};
+
+const CustomNextArrow = (props) => {
+  const { className, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{
+        display: "block",
+        position: "absolute",
+        right: "10px",
+        top: "50%",
+        transform: "translateY(-50%)",
+        zIndex: 1,
+        cursor: "pointer",
+        color: "#ffffff",
+        fontSize: "32px", // Increased font size for larger button
+      }}
+      onClick={onClick}
+    >
+    </div>
+  );
+};

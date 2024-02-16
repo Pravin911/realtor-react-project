@@ -31,7 +31,7 @@ function App() {
             <Route path="/create-listing" element={<CreateListings />}/>
           </Route>
           <Route path="/edit-listing" element={<PrivateRoute />}>
-            <Route path="/edit-listing:listingId" element={<EditListings />}/>
+            <Route path="/edit-listing/:listingId" element={<EditListings />}/>
           </Route>
           <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>

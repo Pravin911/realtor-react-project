@@ -1,0 +1,7 @@
+.item {
+  position: relative;
+}
+
+.item.rounded-image {
+  border-radius: 15px; /* Apply rounded corners to the image */
+}

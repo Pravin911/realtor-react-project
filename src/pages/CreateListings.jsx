@@ -92,6 +92,7 @@ export default function CreateListing() {
       const response = await fetch(
         `https://geocode.maps.co/search?q=${address}&api_key=65c4b0edd0357641864507eiv7e88c2`
       );
+      
       const data = await response.json();
       console.log(data);
       geolocation.lat = data.results?.[0]?.geometry.location.lat ?? 0;
