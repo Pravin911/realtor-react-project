@@ -410,8 +410,8 @@ export default function CreateListing() {
               <div className="flex w-full justify-center items-center space-x-6">
               <input
                 type="number"
-                id="regularPrice"
-                value={regularPrice}
+                id="discountedPrice"
+                value={discountedPrice}
                 onChange={onChange}
                 min={50}
                 max={400000000}
